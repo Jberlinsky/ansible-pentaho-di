@@ -1,0 +1,4 @@
+---
+pdi_version: 5.4.0.1-130-x64
+pdi_s3_bucket: somewhere
+pdi_s3_key: pentaho/di/pdi-{{ pdi_version }}.bin

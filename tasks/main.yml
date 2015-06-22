@@ -1,0 +1,27 @@
+---
+- name: Install dependencies
+  apt: pkg={{ item }} state=present
+  with_items:
+    - zip
+    - libwebkitgtk-1.0-0
+    - libswt-gtk-3-jni
+    - libswt-gtk-3-java
+
+- name: Download the Pentaho DI Wizard
+  s3: >
+    bucket="{{ pdi_s3_bucket }}"
+    object="{{ pdi_s3_key }}"
+    dest="~/pdi.bin"
+    mode=get
+
+- name: Set permissions on Pentaho DI Wizard
+  shell: "chmod 0777 ~/pdi.bin"
+
+- name: Open firewall
+  ufw: proto=tcp port={{ item }} rule=allow
+  with_items:
+    - 5434
+    - 5432
+    - 9080
+    - 50006
+    - 9092
